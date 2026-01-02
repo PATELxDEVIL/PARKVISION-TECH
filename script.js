@@ -1,39 +1,59 @@
-// 🔥 Firebase Config (replace with yours)
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "parkvision-tech.firebaseapp.com",
-  databaseURL: "https://parkvision-tech-default-rtdb.firebaseio.com",
-  projectId: "parkvision-tech",
-  storageBucket: "parkvision-tech.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
-};
+<script type="module">
+  // 🔥 Import Firebase v9 modules
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+  // 🔐 Your Firebase Config (already correct)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
+    authDomain: "parkvision-tech.firebaseapp.com",
+    databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "parkvision-tech",
+    storageBucket: "parkvision-tech.firebasestorage.app",
+    messagingSenderId: "259137051604",
+    appId: "1:259137051604:web:95d40b5e5d839009d21441",
+    measurementId: "G-BE3NE1HSYM"
+  };
 
-const db = firebase.database();
+  // 🚀 Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-// 🔢 Total car count
-db.ref("parking/carCount").on("value", snapshot => {
-  document.getElementById("carCount").innerText = snapshot.val();
-});
+  // ===============================
+  // 🔢 TOTAL CAR COUNT
+  // ===============================
+  const carCountRef = ref(db, "parking/carCount");
 
-// 🚗 Slot status
-function updateSlot(slotId) {
-  db.ref("parking/slots/" + slotId + "/occupied").on("value", snap => {
-    const slotDiv = document.getElementById(slotId);
-    if (snap.val() === true) {
-      slotDiv.className = "slot occupied";
-      slotDiv.innerText = slotId.toUpperCase() + "\nOCCUPIED";
-    } else {
-      slotDiv.className = "slot available";
-      slotDiv.innerText = slotId.toUpperCase() + "\nAVAILABLE";
-    }
+  onValue(carCountRef, (snapshot) => {
+    const count = snapshot.val() ?? 0;
+    document.getElementById("carCount").innerText = count;
   });
-}
 
-updateSlot("slot1");
-updateSlot("slot2");
-updateSlot("slot3");
-updateSlot("slot4");
+  // ===============================
+  // 🚗 SLOT STATUS HANDLER
+  // ===============================
+  function watchSlot(slotId) {
+    const slotRef = ref(db, `parking/slots/${slotId}/occupied`);
+
+    onValue(slotRef, (snapshot) => {
+      const occupied = snapshot.val();
+      const slotDiv = document.getElementById(slotId);
+
+      if (!slotDiv) return;
+
+      if (occupied === true) {
+        slotDiv.className = "slot occupied";
+        slotDiv.innerText = slotId.toUpperCase() + "\nOCCUPIED";
+      } else {
+        slotDiv.className = "slot available";
+        slotDiv.innerText = slotId.toUpperCase() + "\nAVAILABLE";
+      }
+    });
+  }
+
+  // 🔁 Monitor all slots
+  watchSlot("slot1");
+  watchSlot("slot2");
+  watchSlot("slot3");
+  watchSlot("slot4");
+</script>

@@ -1,5 +1,5 @@
-// 🔥 Firebase Config (v8)
-var firebaseConfig = {
+// 🔥 Firebase Config (YOUR REAL CONFIG)
+const firebaseConfig = {
   apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
   authDomain: "parkvision-tech.firebaseapp.com",
   databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -9,41 +9,30 @@ var firebaseConfig = {
   appId: "1:259137051604:web:95d40b5e5d839009d21441"
 };
 
-// 🚀 Initialize Firebase
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
+const db = firebase.database();
 
-
-// 🔢 Total car count
-db.ref("parking/carCount").on("value", function (snapshot) {
-  document.getElementById("carCount").innerText = snapshot.val() || 0;
+/* 🔢 TOTAL CARS */
+db.ref("parking/carCount").on("value", snapshot => {
+  document.getElementById("carCount").innerText = snapshot.val() ?? 0;
 });
 
-
-// 🚗 Slot watcher
+/* 🚗 SLOT STATUS */
 function watchSlot(slotId) {
-  db.ref("parking/slots/" + slotId).on("value", function (snapshot) {
-    var data = snapshot.val();
-    var slotDiv = document.getElementById(slotId);
+  db.ref("parking/slots/" + slotId + "/occupied").on("value", snap => {
+    const slot = document.getElementById(slotId);
 
-    if (!data || !slotDiv) return;
-
-    slotDiv.querySelector(".status").innerText =
-      data.occupied ? "OCCUPIED" : "AVAILABLE";
-
-    slotDiv.querySelector(".entry").innerText =
-      data.entryTime || "--";
-
-    slotDiv.querySelector(".exit").innerText =
-      data.exitTime || "--";
-
-    slotDiv.className = data.occupied
-      ? "slot occupied"
-      : "slot available";
+    if (snap.val() === true) {
+      slot.className = "slot occupied";
+      slot.innerHTML = "🚗 " + slotId.toUpperCase() + "<br>OCCUPIED";
+    } else {
+      slot.className = "slot available";
+      slot.innerHTML = "🅿 " + slotId.toUpperCase() + "<br>AVAILABLE";
+    }
   });
 }
 
-// 👀 Watch all slots
 watchSlot("slot1");
 watchSlot("slot2");
 watchSlot("slot3");

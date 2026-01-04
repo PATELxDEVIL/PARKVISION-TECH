@@ -1,38 +1,56 @@
-// 🔥 Firebase Config (YOUR REAL CONFIG)
+// Firebase Config (YOUR REAL CONFIG)
 const firebaseConfig = {
   apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
   authDomain: "parkvision-tech.firebaseapp.com",
   databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "parkvision-tech",
-  storageBucket: "parkvision-tech.appspot.com",
+  storageBucket: "parkvision-tech.firebasestorage.app",
   messagingSenderId: "259137051604",
   appId: "1:259137051604:web:95d40b5e5d839009d21441"
 };
 
-// Initialize Firebase
+// Init Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* 🔢 TOTAL CARS */
+/* ================= LIVE CAR COUNT ================= */
 db.ref("parking/carCount").on("value", snapshot => {
   document.getElementById("carCount").innerText = snapshot.val() ?? 0;
 });
 
-/* 🚗 SLOT STATUS */
+/* ================= SLOT HANDLER ================= */
 function watchSlot(slotId) {
-  db.ref("parking/slots/" + slotId + "/occupied").on("value", snap => {
-    const slot = document.getElementById(slotId);
+  const slotDiv = document.getElementById(slotId);
+  const statusEl = slotDiv.querySelector(".status");
+  const timeEl = document.getElementById(slotId + "-time");
 
+  // Occupied / Available
+  db.ref(`parking/slots/${slotId}/occupied`).on("value", snap => {
     if (snap.val() === true) {
-      slot.className = "slot occupied";
-      slot.innerHTML = "🚗 " + slotId.toUpperCase() + "<br>OCCUPIED";
+      slotDiv.className = "slot occupied";
+      statusEl.innerText = "🔴 OCCUPIED";
     } else {
-      slot.className = "slot available";
-      slot.innerHTML = "🅿 " + slotId.toUpperCase() + "<br>AVAILABLE";
+      slotDiv.className = "slot available";
+      statusEl.innerText = "🟢 AVAILABLE";
+    }
+  });
+
+  // Entry time
+  db.ref(`parking/slots/${slotId}/entryTime`).on("value", snap => {
+    if (snap.val() && snap.val() !== "-") {
+      timeEl.innerText = "Entry: " + snap.val();
+    }
+  });
+
+  // Exit time
+  db.ref(`parking/slots/${slotId}/exitTime`).on("value", snap => {
+    if (snap.val() && snap.val() !== "-") {
+      timeEl.innerText = "Exit: " + snap.val();
     }
   });
 }
 
+// Activate all slots
 watchSlot("slot1");
 watchSlot("slot2");
 watchSlot("slot3");

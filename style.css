@@ -1,22 +1,93 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
-  font-family: Arial;
+  margin: 0;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: #fff;
+}
+
+header {
   text-align: center;
-  background: #f5f5f5;
+  padding: 20px;
 }
 
-.slots {
-  display: flex;
-  justify-content: center;
+header h1 {
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.counter-card {
+  background: #1e293b;
+  margin: 15px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: pop 0.6s ease;
+}
+
+.counter-card h2 {
+  font-size: 3rem;
+  margin: 0;
+  color: #22c55e;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
+  padding: 20px;
 }
 
-.slot {
+.slot-card {
+  background: #020617;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
+
+.slot-card:hover {
+  transform: translateY(-5px);
+}
+
+.slot-card h3 {
+  margin-top: 0;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  background: #22c55e;
+  color: black;
+}
+
+.slot-card.occupied .status {
+  background: #ef4444;
+  color: white;
+}
+
+.duration {
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+footer {
+  text-align: center;
   padding: 15px;
-  width: 200px;
-  border-radius: 10px;
-  background: #aaffaa;
+  font-size: 0.8rem;
+  opacity: 0.6;
 }
 
-.occupied {
-  background: #ff9999;
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

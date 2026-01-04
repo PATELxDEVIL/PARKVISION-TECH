@@ -11,20 +11,36 @@
 <body>
   <h1>🚗 ParkVision Tech Dashboard</h1>
 
-  <div class="counter">
-    Total Cars Parked: <span id="carCount">0</span>
-  </div>
+  <h2>Total Cars Parked: <span id="carCount">0</span></h2>
 
   <div class="slots">
-    <div class="slot" id="slot1">Slot 1</div>
-    <div class="slot" id="slot2">Slot 2</div>
-    <div class="slot" id="slot3">Slot 3</div>
-    <div class="slot" id="slot4">Slot 4</div>
-  </div>
+    <div class="slot" id="slot1">
+      Slot 1<br>
+      Entry: <span id="slot1_entry">--</span><br>
+      Exit: <span id="slot1_exit">--</span><br>
+      Duration: <span id="slot1_duration">0</span> min
+    </div>
 
-  <div class="analytics">
-    <p>Today's Entry: <span id="entryToday">0</span></p>
-    <p>Today's Exit: <span id="exitToday">0</span></p>
+    <div class="slot" id="slot2">
+      Slot 2<br>
+      Entry: <span id="slot2_entry">--</span><br>
+      Exit: <span id="slot2_exit">--</span><br>
+      Duration: <span id="slot2_duration">0</span> min
+    </div>
+
+    <div class="slot" id="slot3">
+      Slot 3<br>
+      Entry: <span id="slot3_entry">--</span><br>
+      Exit: <span id="slot3_exit">--</span><br>
+      Duration: <span id="slot3_duration">0</span> min
+    </div>
+
+    <div class="slot" id="slot4">
+      Slot 4<br>
+      Entry: <span id="slot4_entry">--</span><br>
+      Exit: <span id="slot4_exit">--</span><br>
+      Duration: <span id="slot4_duration">0</span> min
+    </div>
   </div>
 
   <script src="script.js"></script>

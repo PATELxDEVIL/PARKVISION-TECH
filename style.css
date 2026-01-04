@@ -1,27 +1,83 @@
-body {
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.counter {
-  font-size: 24px;
-  margin: 20px;
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
+  min-height: 100vh;
+  text-align: center;
+  padding: 30px 15px;
+}
+
+h1 {
+  margin-bottom: 25px;
+  font-size: 2rem;
+}
+
+.counter-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(15px);
+  width: 300px;
+  margin: auto;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+.counter-card div {
+  font-size: 3.5rem;
+  color: #22c55e;
+  font-weight: bold;
 }
 
 .slots {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  margin-top: 50px;
 }
 
-.slot {
-  background: #020617;
-  padding: 20px;
-  border-radius: 12px;
+.slot-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  text-align: left;
 }
 
-.available { color: #22c55e; }
-.occupied { color: #ef4444; }
+.slot-card h3 {
+  margin-bottom: 15px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.available {
+  background: #22c55e;
+  color: black;
+}
+
+.occupied {
+  background: #ef4444;
+  color: white;
+}
+
+.slot-card p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+footer {
+  margin-top: 50px;
+  opacity: 0.5;
+  font-size: 0.9rem;
+}

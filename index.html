@@ -1,54 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Smart Parking</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PARKVISION TECH</title>
+
   <link rel="stylesheet" href="style.css">
 
+  <!-- Firebase v8 (STABLE) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 
 <body>
-<h1>Smart Parking Monitoring System</h1>
+  <h1>Smart Parking Monitoring System</h1>
 
-<div class="counter">
-  Total Cars Parked: <span id="carCount">0</span>
-</div>
-
-<div class="slots">
-  <div class="slot" id="slot1">
-    <h3>Slot 1</h3>
-    <p>Status: <span class="status"></span></p>
-    <p>Entry: <span class="entry"></span></p>
-    <p>Exit: <span class="exit"></span></p>
-    <p>Duration: <span class="duration" id="slot1Duration">00:00</span></p>
+  <div class="counter-card">
+    <h2>Total Cars Parked</h2>
+    <div id="carCount">0</div>
   </div>
 
-  <div class="slot" id="slot2">
-    <h3>Slot 2</h3>
-    <p>Status: <span class="status"></span></p>
-    <p>Entry: <span class="entry"></span></p>
-    <p>Exit: <span class="exit"></span></p>
-    <p>Duration: <span class="duration" id="slot2Duration">00:00</span></p>
+  <div class="slots">
+    <div class="slot-card" id="slot1"></div>
+    <div class="slot-card" id="slot2"></div>
+    <div class="slot-card" id="slot3"></div>
+    <div class="slot-card" id="slot4"></div>
   </div>
 
-  <div class="slot" id="slot3">
-    <h3>Slot 3</h3>
-    <p>Status: <span class="status"></span></p>
-    <p>Entry: <span class="entry"></span></p>
-    <p>Exit: <span class="exit"></span></p>
-    <p>Duration: <span class="duration" id="slot3Duration">00:00</span></p>
-  </div>
+  <footer>© 2026 ParkVision Tech</footer>
 
-  <div class="slot" id="slot4">
-    <h3>Slot 4</h3>
-    <p>Status: <span class="status"></span></p>
-    <p>Entry: <span class="entry"></span></p>
-    <p>Exit: <span class="exit"></span></p>
-    <p>Duration: <span class="duration" id="slot4Duration">00:00</span></p>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

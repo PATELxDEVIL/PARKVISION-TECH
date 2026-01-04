@@ -1,6 +1,9 @@
+// 🔥 Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
-  databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "parkvision-tech.firebaseapp.com",
+  databaseURL: "https://parkvision-tech-default-rtdb.firebaseio.com",
+  projectId: "parkvision-tech"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -8,22 +11,26 @@ const db = firebase.database();
 
 const timers = {};
 
-db.ref("parking/carCount").on("value", snap => {
-  document.getElementById("carCount").innerText = snap.val() || 0;
+// 🔢 Auto car count from slots
+db.ref("parking/slots").on("value", snap => {
+  let count = 0;
+  snap.forEach(s => {
+    if (s.val().occupied === true) count++;
+  });
+  document.getElementById("carCount").innerText = count;
 });
 
-["slot1","slot2","slot3","slot4"].forEach(slot => {
+// 🎯 Slot listener
+function listenSlot(slot) {
   db.ref("parking/slots/" + slot).on("value", snap => {
     const d = snap.val();
-    const card = document.getElementById(slot);
+    if (!d) return;
 
-    card.querySelector(".status").innerText =
+    document.getElementById(slot + "Status").innerText =
       d.occupied ? "OCCUPIED" : "AVAILABLE";
-    card.querySelector(".status").className =
-      d.occupied ? "status occupied" : "status available";
 
-    card.querySelector(".entry").innerText = d.entryTime;
-    card.querySelector(".exit").innerText = d.exitTime;
+    document.getElementById(slot + "Entry").innerText = d.entryTime || "-";
+    document.getElementById(slot + "Exit").innerText = d.exitTime || "-";
 
     if (d.occupied && d.entryTimestamp > 0) {
       startTimer(slot, d.entryTimestamp);
@@ -31,20 +38,35 @@ db.ref("parking/carCount").on("value", snap => {
       stopTimer(slot);
     }
   });
-});
+}
 
-function startTimer(slot, ts) {
+// ⏱ MM:SS Timer
+function startTimer(slot, entryTs) {
   stopTimer(slot);
+
   timers[slot] = setInterval(() => {
-    const diff = Date.now() - ts;
-    const sec = Math.floor(diff / 1000);
-    const min = Math.floor(sec / 60);
+    const diff = Date.now() - entryTs;
+    if (diff < 0) return;
+
+    const totalSec = Math.floor(diff / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+
     document.getElementById(slot + "Duration").innerText =
-      `${String(min).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
   }, 1000);
 }
 
 function stopTimer(slot) {
-  if (timers[slot]) clearInterval(timers[slot]);
+  if (timers[slot]) {
+    clearInterval(timers[slot]);
+    delete timers[slot];
+  }
   document.getElementById(slot + "Duration").innerText = "00:00";
 }
+
+// 🚗 Start listeners
+listenSlot("slot1");
+listenSlot("slot2");
+listenSlot("slot3");
+listenSlot("slot4");

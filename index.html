@@ -1,48 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>ParkVision Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 
+  <!-- Firebase v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 
 <body>
-  <h1>🚗 ParkVision Tech Dashboard</h1>
 
-  <h2>Total Cars Parked: <span id="carCount">0</span></h2>
+<header>
+  <h1>🚗 ParkVision Tech</h1>
+  <p>Smart Parking Monitoring System</p>
+</header>
 
-  <div class="slots">
-    <div class="slot" id="slot1">
-      Slot 1<br>
-      Entry: <span id="slot1_entry">--</span><br>
-      Exit: <span id="slot1_exit">--</span><br>
-      Duration: <span id="slot1_duration">0</span> min
-    </div>
+<section class="counter-card">
+  <span>Total Cars Parked</span>
+  <h2 id="carCount">0</h2>
+</section>
 
-    <div class="slot" id="slot2">
-      Slot 2<br>
-      Entry: <span id="slot2_entry">--</span><br>
-      Exit: <span id="slot2_exit">--</span><br>
-      Duration: <span id="slot2_duration">0</span> min
-    </div>
+<section class="slots-grid">
 
-    <div class="slot" id="slot3">
-      Slot 3<br>
-      Entry: <span id="slot3_entry">--</span><br>
-      Exit: <span id="slot3_exit">--</span><br>
-      Duration: <span id="slot3_duration">0</span> min
-    </div>
-
-    <div class="slot" id="slot4">
-      Slot 4<br>
-      Entry: <span id="slot4_entry">--</span><br>
-      Exit: <span id="slot4_exit">--</span><br>
-      Duration: <span id="slot4_duration">0</span> min
-    </div>
+  <div class="slot-card" id="slot1">
+    <h3>Slot 1</h3>
+    <div class="status">AVAILABLE</div>
+    <p>Entry: <span id="slot1_entry">-</span></p>
+    <p>Exit: <span id="slot1_exit">-</span></p>
+    <p class="duration">Duration: <span id="slot1_duration">00:00</span></p>
   </div>
 
-  <script src="script.js"></script>
+  <div class="slot-card" id="slot2">
+    <h3>Slot 2</h3>
+    <div class="status">AVAILABLE</div>
+    <p>Entry: <span id="slot2_entry">-</span></p>
+    <p>Exit: <span id="slot2_exit">-</span></p>
+    <p class="duration">Duration: <span id="slot2_duration">00:00</span></p>
+  </div>
+
+  <div class="slot-card" id="slot3">
+    <h3>Slot 3</h3>
+    <div class="status">AVAILABLE</div>
+    <p>Entry: <span id="slot3_entry">-</span></p>
+    <p>Exit: <span id="slot3_exit">-</span></p>
+    <p class="duration">Duration: <span id="slot3_duration">00:00</span></p>
+  </div>
+
+  <div class="slot-card" id="slot4">
+    <h3>Slot 4</h3>
+    <div class="status">AVAILABLE</div>
+    <p>Entry: <span id="slot4_entry">-</span></p>
+    <p>Exit: <span id="slot4_exit">-</span></p>
+    <p class="duration">Duration: <span id="slot4_duration">00:00</span></p>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 ParkVision Tech
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,53 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>ParkVision Tech Dashboard</title>
-
-  <!-- CSS -->
+  <title>ParkVision Tech</title>
   <link rel="stylesheet" href="style.css">
 
-  <!-- Firebase v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 
 <body>
-
-  <h1>🚗 ParkVision Tech</h1>
+  <h1>🚗 ParkVision Tech Dashboard</h1>
 
   <div class="counter">
     Total Cars Parked: <span id="carCount">0</span>
   </div>
 
   <div class="slots">
-    <div class="slot" id="slot1">
-      <h3>Slot 1</h3>
-      <p class="status">--</p>
-      <p class="time" id="slot1-time">--</p>
-    </div>
-
-    <div class="slot" id="slot2">
-      <h3>Slot 2</h3>
-      <p class="status">--</p>
-      <p class="time" id="slot2-time">--</p>
-    </div>
-
-    <div class="slot" id="slot3">
-      <h3>Slot 3</h3>
-      <p class="status">--</p>
-      <p class="time" id="slot3-time">--</p>
-    </div>
-
-    <div class="slot" id="slot4">
-      <h3>Slot 4</h3>
-      <p class="status">--</p>
-      <p class="time" id="slot4-time">--</p>
-    </div>
+    <div class="slot" id="slot1">Slot 1</div>
+    <div class="slot" id="slot2">Slot 2</div>
+    <div class="slot" id="slot3">Slot 3</div>
+    <div class="slot" id="slot4">Slot 4</div>
   </div>
 
-  <!-- IMPORTANT: normal script (NOT module) -->
-  <script src="script.js"></script>
+  <div class="analytics">
+    <p>Today's Entry: <span id="entryToday">0</span></p>
+    <p>Today's Exit: <span id="exitToday">0</span></p>
+  </div>
 
+  <script src="script.js"></script>
 </body>
 </html>

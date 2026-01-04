@@ -1,7 +1,7 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   text-align: center;
-  background: #f4f6f8;
+  background: #f4f4f4;
 }
 
 .counter {
@@ -12,26 +12,30 @@ body {
 .slots {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .slot {
-  width: 180px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #ccc;
+  width: 150px;
+  height: 100px;
+  padding: 20px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.available {
+  background: #4CAF50;
   color: white;
 }
 
-.slot.available {
-  background: #2ecc71;
+.occupied {
+  background: #F44336;
+  color: white;
 }
 
-.slot.occupied {
-  background: #e74c3c;
-}
-
-.time {
-  font-size: 14px;
-  margin-top: 8px;
+@media (max-width: 768px) {
+  .slots {
+    flex-direction: column;
+  }
 }

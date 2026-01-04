@@ -1,72 +1,52 @@
-// 🔥 Firebase Config
+// 🔥 Firebase Config (YOUR REAL DATA)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
   authDomain: "parkvision-tech.firebaseapp.com",
-  databaseURL: "https://parkvision-tech-default-rtdb.firebaseio.com",
-  projectId: "parkvision-tech"
+  databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "parkvision-tech",
+  storageBucket: "parkvision-tech.appspot.com",
+  messagingSenderId: "259137051604",
+  appId: "1:259137051604:web:95d40b5e5d839009d21441"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const timers = {};
-
-// 🔢 Auto car count from slots
-db.ref("parking/slots").on("value", snap => {
-  let count = 0;
-  snap.forEach(s => {
-    if (s.val().occupied === true) count++;
-  });
-  document.getElementById("carCount").innerText = count;
+/* ================= CAR COUNT ================= */
+db.ref("parking/carCount").on("value", snap => {
+  document.getElementById("carCount").innerText = snap.val() ?? 0;
 });
 
-// 🎯 Slot listener
-function listenSlot(slot) {
-  db.ref("parking/slots/" + slot).on("value", snap => {
+/* ================= TIME FORMAT ================= */
+function formatMMSS(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+
+/* ================= SLOT LISTENER ================= */
+function listenSlot(slotId) {
+  const slotDiv = document.getElementById(slotId);
+
+  db.ref(`parking/slots/${slotId}`).on("value", snap => {
     const d = snap.val();
     if (!d) return;
 
-    document.getElementById(slot + "Status").innerText =
-      d.occupied ? "OCCUPIED" : "AVAILABLE";
+    const occupied = d.occupied;
+    const entry = d.entryTime || "-";
+    const exit = d.exitTime || "-";
+    const duration = d.duration || 0;
 
-    document.getElementById(slot + "Entry").innerText = d.entryTime || "-";
-    document.getElementById(slot + "Exit").innerText = d.exitTime || "-";
-
-    if (d.occupied && d.entryTimestamp > 0) {
-      startTimer(slot, d.entryTimestamp);
-    } else {
-      stopTimer(slot);
-    }
+    slotDiv.innerHTML = `
+      <h3>${slotId.toUpperCase()}</h3>
+      <span class="badge ${occupied ? "occupied" : "available"}">
+        ${occupied ? "OCCUPIED" : "AVAILABLE"}
+      </span>
+      <p>Entry: ${entry}</p>
+      <p>Exit: ${exit}</p>
+      <p><strong>Duration: ${formatMMSS(duration)}</strong></p>
+    `;
   });
 }
 
-// ⏱ MM:SS Timer
-function startTimer(slot, entryTs) {
-  stopTimer(slot);
-
-  timers[slot] = setInterval(() => {
-    const diff = Date.now() - entryTs;
-    if (diff < 0) return;
-
-    const totalSec = Math.floor(diff / 1000);
-    const min = Math.floor(totalSec / 60);
-    const sec = totalSec % 60;
-
-    document.getElementById(slot + "Duration").innerText =
-      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-  }, 1000);
-}
-
-function stopTimer(slot) {
-  if (timers[slot]) {
-    clearInterval(timers[slot]);
-    delete timers[slot];
-  }
-  document.getElementById(slot + "Duration").innerText = "00:00";
-}
-
-// 🚗 Start listeners
-listenSlot("slot1");
-listenSlot("slot2");
-listenSlot("slot3");
-listenSlot("slot4");
+["slot1","slot2","slot3","slot4"].forEach(listenSlot);

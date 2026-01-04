@@ -10,31 +10,45 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-db.ref("parking/carCount").on("value", s => {
-  document.getElementById("carCount").innerText = s.val() || 0;
+/* TOTAL CAR COUNT */
+db.ref("parking/carCount").on("value", snap => {
+  document.getElementById("carCount").innerText = snap.val() ?? 0;
 });
 
-function format(ms) {
-  let sec = Math.floor(ms / 1000);
-  return `${Math.floor(sec/60)}:${(sec%60).toString().padStart(2,"0")}`;
+function formatTime(ms) {
+  const sec = Math.floor(ms / 1000);
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-["slot1","slot2","slot3","slot4"].forEach(slot=>{
-  let entryTs=0, occupied=false;
+["slot1","slot2","slot3","slot4"].forEach(slot => {
+  let occupied = false;
+  let entryTimestamp = 0;
 
-  db.ref("parking/slots/"+slot).on("value", s=>{
-    let d=s.val();
-    if(!d) return;
-    occupied=d.occupied;
-    entryTs=d.entryTimestamp;
-    document.getElementById(slot).classList.toggle("occupied", occupied);
-    document.getElementById(slot+"_entry").innerText=d.entryTime;
-    document.getElementById(slot+"_exit").innerText=d.exitTime;
+  db.ref("parking/slots/" + slot).on("value", snap => {
+    const d = snap.val();
+    if (!d) return;
+
+    occupied = d.occupied;
+    entryTimestamp = d.entryTimestamp || 0;
+
+    const card = document.getElementById(slot);
+    const status = card.querySelector(".status");
+
+    card.classList.toggle("occupied", occupied);
+    status.innerText = occupied ? "OCCUPIED" : "AVAILABLE";
+
+    document.getElementById(slot + "_entry").innerText = d.entryTime;
+    document.getElementById(slot + "_exit").innerText = d.exitTime;
   });
 
-  setInterval(()=>{
-    if(occupied && entryTs)
-      document.getElementById(slot+"_duration").innerText =
-        format(Date.now()-entryTs);
-  },1000);
+  setInterval(() => {
+    if (occupied && entryTimestamp > 0) {
+      document.getElementById(slot + "_duration").innerText =
+        formatTime(Date.now() - entryTimestamp);
+    } else {
+      document.getElementById(slot + "_duration").innerText = "00:00";
+    }
+  }, 1000);
 });

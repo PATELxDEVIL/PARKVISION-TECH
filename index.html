@@ -1,65 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ParkVision Tech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Firebase v8 -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Smart Parking Monitoring System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="container">
 
-    <h1 class="title">🚗 Smart Parking Monitoring System</h1>
+  <h1 class="title">ParkVision Tech</h1>
+  <h2>Smart Parking Monitoring System</h2>
 
-    <div class="counter-card">
-      <p>Total Cars Parked</p>
-      <h2 id="carCount">0</h2>
+  <div class="dashboard">
+    <div class="slot available" id="slot1">
+      <img src="car.png" class="car" />
+      <h2>Slot 1</h2>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
     </div>
 
-    <div class="slots">
-
-      <div class="slot-card" id="slot1">
-        <h3>Slot 1</h3>
-        <span class="status available" id="status-slot1">AVAILABLE</span>
-        <p>Entry: <span id="entry-slot1">-</span></p>
-        <p>Exit: <span id="exit-slot1">-</span></p>
-        <p class="duration">Duration: <span id="duration-slot1">00:00</span></p>
-      </div>
-
-      <div class="slot-card" id="slot2">
-        <h3>Slot 2</h3>
-        <span class="status available" id="status-slot2">AVAILABLE</span>
-        <p>Entry: <span id="entry-slot2">-</span></p>
-        <p>Exit: <span id="exit-slot2">-</span></p>
-        <p class="duration">Duration: <span id="duration-slot2">00:00</span></p>
-      </div>
-
-      <div class="slot-card" id="slot3">
-        <h3>Slot 3</h3>
-        <span class="status available" id="status-slot3">AVAILABLE</span>
-        <p>Entry: <span id="entry-slot3">-</span></p>
-        <p>Exit: <span id="exit-slot3">-</span></p>
-        <p class="duration">Duration: <span id="duration-slot3">00:00</span></p>
-      </div>
-
-      <div class="slot-card" id="slot4">
-        <h3>Slot 4</h3>
-        <span class="status available" id="status-slot4">AVAILABLE</span>
-        <p>Entry: <span id="entry-slot4">-</span></p>
-        <p>Exit: <span id="exit-slot4">-</span></p>
-        <p class="duration">Duration: <span id="duration-slot4">00:00</span></p>
-      </div>
-
+    <div class="slot occupied" id="slot2">
+      <img src="car.png" class="car" />
+      <h2>Slot 2</h2>
+      <p>Status: <span class="status">OCCUPIED</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
     </div>
 
-    <footer>© 2026 ParkVision Tech</footer>
+    <div class="slot available" id="slot3">
+      <img src="car.png" class="car" />
+      <h2>Slot 3</h2>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
 
+    <div class="slot available" id="slot4">
+      <img src="car.png" class="car" />
+      <h2>Slot 4</h2>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
   </div>
 
   <script src="script.js"></script>

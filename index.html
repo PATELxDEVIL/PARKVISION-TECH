@@ -1,46 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Smart Parking Monitoring System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <h1 class="title">ParkVision Tech</h1>
-  <h2>Smart Parking Monitoring System</h2>
+  <h1 class="title"> ParkVision Tech</h1>
+  <h1 class="title">Smart Parking Monitoring System</h1>
 
-  <div class="dashboard">
-    <div class="slot available" id="slot1">
-      <img src="car.png" class="car" />
-      <h2>Slot 1</h2>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
+<div class="parking-grid">
 
-    <div class="slot occupied" id="slot2">
-      <img src="car.png" class="car" />
-      <h2>Slot 2</h2>
-      <p>Status: <span class="status">OCCUPIED</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
-
-    <div class="slot available" id="slot3">
-      <img src="car.png" class="car" />
-      <h2>Slot 3</h2>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
-
-    <div class="slot available" id="slot4">
-      <img src="car.png" class="car" />
-      <h2>Slot 4</h2>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
+  <!-- SLOT TEMPLATE -->
+  <div class="slot available" id="slot1">
+    <img src="car.png" class="car-icon">
+    <h3>Slot 1</h3>
+    <p>Status: <span class="status">AVAILABLE</span></p>
+    <p>Entry: <span class="entry">-</span></p>
+    <p>Exit: <span class="exit">-</span></p>
+    <p>Duration: <span class="duration">00:00</span></p>
   </div>
 
-  <script src="script.js"></script>
+  <div class="slot available" id="slot2">
+    <img src="car.png" class="car-icon">
+    <h3>Slot 2</h3>
+    <p>Status: <span class="status">AVAILABLE</span></p>
+    <p>Entry: <span class="entry">-</span></p>
+    <p>Exit: <span class="exit">-</span></p>
+    <p>Duration: <span class="duration">00:00</span></p>
+  </div>
+
+  <div class="slot available" id="slot3">
+    <img src="car.png" class="car-icon">
+    <h3>Slot 3</h3>
+    <p>Status: <span class="status">AVAILABLE</span></p>
+    <p>Entry: <span class="entry">-</span></p>
+    <p>Exit: <span class="exit">-</span></p>
+    <p>Duration: <span class="duration">00:00</span></p>
+  </div>
+
+  <div class="slot available" id="slot4">
+    <img src="car.png" class="car-icon">
+    <h3>Slot 4</h3>
+    <p>Status: <span class="status">AVAILABLE</span></p>
+    <p>Entry: <span class="entry">-</span></p>
+    <p>Exit: <span class="exit">-</span></p>
+    <p>Duration: <span class="duration">00:00</span></p>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

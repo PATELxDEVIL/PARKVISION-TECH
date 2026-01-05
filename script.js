@@ -12,41 +12,32 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* ================= CAR COUNT ================= */
-db.ref("parking/carCount").on("value", snap => {
-  document.getElementById("carCount").innerText = snap.val() ?? 0;
-});
-
-/* ================= TIME FORMAT ================= */
+// 🔁 Convert seconds → MM:SS
 function formatMMSS(seconds) {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
-  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }
 
-/* ================= SLOT LISTENER ================= */
-function listenSlot(slotId) {
-  const slotDiv = document.getElementById(slotId);
+// 🔥 Live listener
+db.ref("parking").on("value", snapshot => {
+  const data = snapshot.val();
+  document.getElementById("carCount").innerText = data.carCount;
 
-  db.ref(`parking/slots/${slotId}`).on("value", snap => {
-    const d = snap.val();
-    if (!d) return;
+  Object.keys(data.slots).forEach(slot => {
+    const slotData = data.slots[slot];
 
-    const occupied = d.occupied;
-    const entry = d.entryTime || "-";
-    const exit = d.exitTime || "-";
-    const duration = d.duration || 0;
+    document.getElementById(`entry-${slot}`).innerText = slotData.entryTime;
+    document.getElementById(`exit-${slot}`).innerText = slotData.exitTime;
+    document.getElementById(`duration-${slot}`).innerText = formatMMSS(slotData.duration);
 
-    slotDiv.innerHTML = `
-      <h3>${slotId.toUpperCase()}</h3>
-      <span class="badge ${occupied ? "occupied" : "available"}">
-        ${occupied ? "OCCUPIED" : "AVAILABLE"}
-      </span>
-      <p>Entry: ${entry}</p>
-      <p>Exit: ${exit}</p>
-      <p><strong>Duration: ${formatMMSS(duration)}</strong></p>
-    `;
+    const statusEl = document.getElementById(`status-${slot}`);
+    if (slotData.occupied) {
+      statusEl.innerText = "OCCUPIED";
+      statusEl.className = "status occupied";
+    } else {
+      statusEl.innerText = "AVAILABLE";
+      statusEl.className = "status available";
+    }
   });
-}
-
-["slot1","slot2","slot3","slot4"].forEach(listenSlot);
+});

@@ -6,78 +6,97 @@
 }
 
 body {
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: white;
+  background: linear-gradient(135deg, #020617, #020617ee),
+              url("https://images.unsplash.com/photo-1502877338535-766e1452684a") center/cover;
+  color: #fff;
   min-height: 100vh;
-  text-align: center;
-  padding: 30px 15px;
 }
 
-h1 {
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
   margin-bottom: 25px;
-  font-size: 2rem;
+  animation: fadeDown 1s ease;
 }
 
 .counter-card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(15px);
-  width: 300px;
-  margin: auto;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  background: #0f172a;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 0 20px rgba(0,255,128,0.2);
+  animation: pulse 2s infinite;
 }
 
-.counter-card div {
-  font-size: 3.5rem;
+.counter-card h2 {
+  font-size: 48px;
   color: #22c55e;
-  font-weight: bold;
 }
 
 .slots {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  margin-top: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .slot-card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  text-align: left;
+  background: #020617;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.slot-card:hover {
+  transform: translateY(-6px);
 }
 
 .slot-card h3 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-.badge {
+.status {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-size: 12px;
+  margin-bottom: 10px;
 }
 
 .available {
   background: #22c55e;
-  color: black;
 }
 
 .occupied {
   background: #ef4444;
-  color: white;
 }
 
-.slot-card p {
-  margin: 8px 0;
-  font-size: 0.95rem;
+.duration {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #38bdf8;
 }
 
 footer {
-  margin-top: 50px;
-  opacity: 0.5;
-  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 40px;
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 15px rgba(34,197,94,0.4); }
+  50% { box-shadow: 0 0 30px rgba(34,197,94,0.8); }
+  100% { box-shadow: 0 0 15px rgba(34,197,94,0.4); }
 }

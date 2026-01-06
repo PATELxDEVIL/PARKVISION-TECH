@@ -12,32 +12,48 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🔁 Convert seconds → MM:SS
-function formatMMSS(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+// FORMAT TIME
+function timeFormat(ts) {
+  if (!ts || ts === 0) return "-";
+  return new Date(ts).toLocaleTimeString();
 }
 
-// 🔥 Live listener
-db.ref("parking").on("value", snapshot => {
-  const data = snapshot.val();
-  document.getElementById("carCount").innerText = data.carCount;
+// MM:SS FORMAT
+function duration(entry) {
+  if (!entry) return "00:00";
+  const diff = Math.floor((Date.now() - entry) / 1000);
+  const m = Math.floor(diff / 60);
+  const s = diff % 60;
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
 
-  Object.keys(data.slots).forEach(slot => {
-    const slotData = data.slots[slot];
+// TOTAL CAR COUNT
+db.ref("parking/carCount").on("value", snap => {
+  document.getElementById("carCount").innerText = snap.val() ?? 0;
+});
 
-    document.getElementById(`entry-${slot}`).innerText = slotData.entryTime;
-    document.getElementById(`exit-${slot}`).innerText = slotData.exitTime;
-    document.getElementById(`duration-${slot}`).innerText = formatMMSS(slotData.duration);
+// SLOT LISTENER
+["slot1","slot2","slot3","slot4"].forEach(slotId => {
+  db.ref("parking/slots/" + slotId).on("value", snap => {
+    const data = snap.val();
+    const el = document.getElementById(slotId);
 
-    const statusEl = document.getElementById(`status-${slot}`);
-    if (slotData.occupied) {
-      statusEl.innerText = "OCCUPIED";
-      statusEl.className = "status occupied";
-    } else {
-      statusEl.innerText = "AVAILABLE";
-      statusEl.className = "status available";
-    }
+    if (!data) return;
+
+    el.className = "slot" + (data.occupied ? " occupied" : "");
+
+    el.innerHTML = `
+      <img src="car.png" class="car">
+      <h3>${slotId.toUpperCase()}</h3>
+      <p>Status:
+        <span class="status ${data.occupied ? "red":"green"}">
+          ${data.occupied ? "OCCUPIED":"AVAILABLE"}
+        </span>
+      </p>
+      <p>Entry: ${timeFormat(data.entryTime)}</p>
+      <p>Exit: ${timeFormat(data.exitTime)}</p>
+      <p>Duration: ${data.occupied ? duration(data.entryTime) : "00:00"}</p>
+    `;
   });
 });
+

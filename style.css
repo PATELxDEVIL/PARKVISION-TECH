@@ -2,67 +2,123 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-  background: radial-gradient(circle at top, #0a0f2c, #000);
-  color: white;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0b102f, #000);
+  color: #fff;
   text-align: center;
   padding: 20px;
 }
 
+/* HEADINGS */
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 5px;
 }
 
 h2 {
-  margin: 10px 0;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  margin-bottom: 10px;
+  opacity: 0.9;
 }
 
+h3 {
+  font-size: 1rem;
+}
+
+/* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
-  margin-top: 30px;
+  max-width: 1200px;
+  margin: 30px auto 40px;
 }
 
+/* SLOT CARD */
 .slot {
   border: 3px solid #00ff88;
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  transition: 0.4s;
+  background: rgba(0, 0, 0, 0.55);
+  transition: 0.4s ease;
+  position: relative;
 }
 
-.slot .car {
+/* CAR ICON */
+.car {
   width: 70px;
   margin-bottom: 10px;
-  transition: 0.4s;
+  transition: 0.4s ease;
 }
 
+/* STATUS */
 .status {
   font-weight: bold;
   color: #00ff88;
 }
 
-/* OCCUPIED STATE */
+/* TEXT */
+.slot p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+}
+
+/* 🔴 OCCUPIED STATE */
 .slot.occupied {
-  border-color: red;
+  border-color: #ff2d2d;
   animation: blink 1s infinite;
 }
 
 .slot.occupied .status {
-  color: red;
+  color: #ff2d2d;
 }
 
+/* 🔴 CAR TURNS RED (PNG SAFE METHOD) */
 .slot.occupied .car {
-  filter: hue-rotate(330deg) saturate(4);
+  filter:
+    brightness(1.1)
+    sepia(1)
+    hue-rotate(-40deg)
+    saturate(6)
+    drop-shadow(0 0 12px red);
 }
 
 /* BLINK ANIMATION */
 @keyframes blink {
-  0% { box-shadow: 0 0 10px red; }
-  50% { box-shadow: 0 0 25px red; }
+  0%   { box-shadow: 0 0 10px red; }
+  50%  { box-shadow: 0 0 25px red; }
   100% { box-shadow: 0 0 10px red; }
+}
+
+/* 📱 MOBILE */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  .car {
+    width: 60px;
+  }
+
+  .slot {
+    padding: 15px;
+  }
+}
+
+/* 📱 TABLET */
+@media (max-width: 900px) {
+  .grid {
+    gap: 15px;
+  }
+}
+
+/* FOOTER */
+footer {
+  margin-top: 30px;
+  font-size: 0.85rem;
+  opacity: 0.7;
 }

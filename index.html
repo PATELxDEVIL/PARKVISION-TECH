@@ -5,22 +5,25 @@
   <title>ParkVision Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
-
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <h1>ParkVision Tech</h1>
-  <h2>Smart Parking Monitoring System</h2>
-  <h3>Total Cars Parked: <span id="totalCars">0</span></h3>
 
-  <div class="grid">
-    <div class="slot" id="SLOT1">
-      <img src="car.png" class="car" />
+  <header>
+    <h1>ParkVision Tech</h1>
+    <h2>Smart Parking Monitoring System</h2>
+    <p>Total Cars Parked: <span id="carCount">0</span></p>
+  </header>
+
+  <main class="grid">
+
+    <!-- SLOT TEMPLATE -->
+    <div class="slot" id="slot1">
+      <img src="car.png" class="car-icon" />
       <h3>SLOT 1</h3>
       <p>Status: <span class="status">AVAILABLE</span></p>
       <p>Entry: <span class="entry">--</span></p>
@@ -28,8 +31,8 @@
       <p>Duration: <span class="duration">00:00</span></p>
     </div>
 
-    <div class="slot" id="SLOT2">
-      <img src="car.png" class="car" />
+    <div class="slot" id="slot2">
+      <img src="car.png" class="car-icon" />
       <h3>SLOT 2</h3>
       <p>Status: <span class="status">AVAILABLE</span></p>
       <p>Entry: <span class="entry">--</span></p>
@@ -37,8 +40,8 @@
       <p>Duration: <span class="duration">00:00</span></p>
     </div>
 
-    <div class="slot" id="SLOT3">
-      <img src="car.png" class="car" />
+    <div class="slot" id="slot3">
+      <img src="car.png" class="car-icon" />
       <h3>SLOT 3</h3>
       <p>Status: <span class="status">AVAILABLE</span></p>
       <p>Entry: <span class="entry">--</span></p>
@@ -46,20 +49,21 @@
       <p>Duration: <span class="duration">00:00</span></p>
     </div>
 
-    <div class="slot" id="SLOT4">
-      <img src="car.png" class="car" />
+    <div class="slot" id="slot4">
+      <img src="car.png" class="car-icon" />
       <h3>SLOT 4</h3>
       <p>Status: <span class="status">AVAILABLE</span></p>
       <p>Entry: <span class="entry">--</span></p>
       <p>Exit: <span class="exit">--</span></p>
       <p>Duration: <span class="duration">00:00</span></p>
     </div>
-  </div>
+
+  </main>
+
+  <footer>
+    © 2026 ParkVision Tech. All Rights Reserved.
+  </footer>
 
   <script src="script.js"></script>
 </body>
-  <footer>
-  © 2026 <strong>ParkVision Tech</strong>. All Rights Reserved.
-</footer>
-
 </html>

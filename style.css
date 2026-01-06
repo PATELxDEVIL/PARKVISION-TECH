@@ -1,124 +1,83 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 body {
-  min-height: 100vh;
-  background: radial-gradient(circle at top, #0b102f, #000);
-  color: #fff;
+  margin: 0;
+  background: radial-gradient(circle, #050b1f, #000);
+  color: white;
+}
+
+header {
   text-align: center;
-  padding: 20px;
+  padding: 30px 10px;
 }
 
-/* HEADINGS */
-h1 {
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  margin-bottom: 5px;
+header h1 {
+  font-size: 2.8rem;
 }
 
-h2 {
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
-  margin-bottom: 10px;
-  opacity: 0.9;
+header h2 {
+  font-weight: 300;
+  color: #cfd8ff;
 }
 
-h3 {
-  font-size: 1rem;
-}
-
-/* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  margin: 30px auto 40px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 30px;
 }
 
-/* SLOT CARD */
 .slot {
-  border: 3px solid #00ff88;
-  border-radius: 18px;
+  background: rgba(0,0,0,0.6);
+  border: 3px solid #00ff99;
+  border-radius: 20px;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.55);
-  transition: 0.4s ease;
-  position: relative;
+  text-align: center;
+  transition: 0.3s;
 }
 
-/* CAR ICON */
-.car {
-  width: 70px;
-  margin-bottom: 10px;
-  transition: 0.4s ease;
-}
-
-/* STATUS */
-.status {
-  font-weight: bold;
-  color: #00ff88;
-}
-
-/* TEXT */
-.slot p {
-  margin: 6px 0;
-  font-size: 0.9rem;
-}
-
-/* 🔴 OCCUPIED STATE */
 .slot.occupied {
-  border-color: #ff2d2d;
+  border-color: red;
   animation: blink 1s infinite;
 }
 
-.slot.occupied .status {
-  color: #ff2d2d;
-}
-
-/* 🔴 CAR TURNS RED (PNG SAFE METHOD) */
-.slot.occupied .car {
-  filter:
-    brightness(1.1)
-    sepia(1)
-    hue-rotate(-40deg)
-    saturate(6)
-    drop-shadow(0 0 12px red);
-}
-
-/* BLINK ANIMATION */
 @keyframes blink {
-  0%   { box-shadow: 0 0 10px red; }
-  50%  { box-shadow: 0 0 25px red; }
+  0% { box-shadow: 0 0 10px red; }
+  50% { box-shadow: 0 0 25px red; }
   100% { box-shadow: 0 0 10px red; }
 }
 
-/* 📱 MOBILE */
-@media (max-width: 600px) {
-  body {
-    padding: 15px;
-  }
-
-  .car {
-    width: 60px;
-  }
-
-  .slot {
-    padding: 15px;
-  }
+.car-icon {
+  width: 80px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 5px white);
 }
 
-/* 📱 TABLET */
-@media (max-width: 900px) {
-  .grid {
-    gap: 15px;
-  }
+.slot.occupied .car-icon {
+  filter: drop-shadow(0 0 15px red);
 }
 
-/* FOOTER */
+.status {
+  font-weight: bold;
+  color: #00ff99;
+}
+
+.slot.occupied .status {
+  color: red;
+}
+
 footer {
-  margin-top: 30px;
-  font-size: 0.85rem;
-  opacity: 0.7;
+  text-align: center;
+  padding: 20px;
+  opacity: 0.6;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 2rem;
+  }
 }

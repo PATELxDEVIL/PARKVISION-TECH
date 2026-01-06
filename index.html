@@ -1,29 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ParkVision Tech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Firebase v8 -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 
 <body>
-<h1 class="title">ParkVision Tech</h1>
-<h1 class="title">Smart Parking Monitoring System</h1>
+  <h1>ParkVision Tech</h1>
+  <h2>Smart Parking Monitoring System</h2>
+  <h3>Total Cars Parked: <span id="totalCars">0</span></h3>
 
-<h2 class="count">Total Cars Parked: <span id="carCount">0</span></h2>
+  <div class="grid">
+    <div class="slot" id="SLOT1">
+      <img src="car.png" class="car" />
+      <h3>SLOT 1</h3>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Entry: <span class="entry">--</span></p>
+      <p>Exit: <span class="exit">--</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
 
-<div class="parking-grid">
-  <div class="slot" id="slot1"></div>
-  <div class="slot" id="slot2"></div>
-  <div class="slot" id="slot3"></div>
-  <div class="slot" id="slot4"></div>
-</div>
+    <div class="slot" id="SLOT2">
+      <img src="car.png" class="car" />
+      <h3>SLOT 2</h3>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Entry: <span class="entry">--</span></p>
+      <p>Exit: <span class="exit">--</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
 
-<script src="script.js"></script>
+    <div class="slot" id="SLOT3">
+      <img src="car.png" class="car" />
+      <h3>SLOT 3</h3>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Entry: <span class="entry">--</span></p>
+      <p>Exit: <span class="exit">--</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
+
+    <div class="slot" id="SLOT4">
+      <img src="car.png" class="car" />
+      <h3>SLOT 4</h3>
+      <p>Status: <span class="status">AVAILABLE</span></p>
+      <p>Entry: <span class="entry">--</span></p>
+      <p>Exit: <span class="exit">--</span></p>
+      <p>Duration: <span class="duration">00:00</span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

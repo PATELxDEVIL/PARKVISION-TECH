@@ -1,56 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Smart Parking Monitoring System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParkVision Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 
 <body>
+<h1 class="title">ParkVision Tech</h1>
+<h1 class="title">Smart Parking Monitoring System</h1>
 
-  <h1 class="title"> ParkVision Tech</h1>
-  <h1 class="title">Smart Parking Monitoring System</h1>
+<h2 class="count">Total Cars Parked: <span id="carCount">0</span></h2>
 
 <div class="parking-grid">
-
-  <!-- SLOT TEMPLATE -->
-  <div class="slot available" id="slot1">
-    <img src="car.png" class="car-icon">
-    <h3>Slot 1</h3>
-    <p>Status: <span class="status">AVAILABLE</span></p>
-    <p>Entry: <span class="entry">-</span></p>
-    <p>Exit: <span class="exit">-</span></p>
-    <p>Duration: <span class="duration">00:00</span></p>
-  </div>
-
-  <div class="slot available" id="slot2">
-    <img src="car.png" class="car-icon">
-    <h3>Slot 2</h3>
-    <p>Status: <span class="status">AVAILABLE</span></p>
-    <p>Entry: <span class="entry">-</span></p>
-    <p>Exit: <span class="exit">-</span></p>
-    <p>Duration: <span class="duration">00:00</span></p>
-  </div>
-
-  <div class="slot available" id="slot3">
-    <img src="car.png" class="car-icon">
-    <h3>Slot 3</h3>
-    <p>Status: <span class="status">AVAILABLE</span></p>
-    <p>Entry: <span class="entry">-</span></p>
-    <p>Exit: <span class="exit">-</span></p>
-    <p>Duration: <span class="duration">00:00</span></p>
-  </div>
-
-  <div class="slot available" id="slot4">
-    <img src="car.png" class="car-icon">
-    <h3>Slot 4</h3>
-    <p>Status: <span class="status">AVAILABLE</span></p>
-    <p>Entry: <span class="entry">-</span></p>
-    <p>Exit: <span class="exit">-</span></p>
-    <p>Duration: <span class="duration">00:00</span></p>
-  </div>
-
+  <div class="slot" id="slot1"></div>
+  <div class="slot" id="slot2"></div>
+  <div class="slot" id="slot3"></div>
+  <div class="slot" id="slot4"></div>
 </div>
 
 <script src="script.js"></script>

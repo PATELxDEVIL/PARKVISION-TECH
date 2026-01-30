@@ -1,33 +1,83 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
 body {
-  background: #050b1f;
+  margin: 0;
+  background: radial-gradient(circle, #050b1f, #000);
   color: white;
-  font-family: Segoe UI;
 }
 
 header {
   text-align: center;
-  padding: 20px;
+  padding: 30px 10px;
+}
+
+header h1 {
+  font-size: 2.8rem;
+}
+
+header h2 {
+  font-weight: 300;
+  color: #cfd8ff;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 30px;
 }
 
 .slot {
+  background: rgba(0,0,0,0.6);
   border: 3px solid #00ff99;
+  border-radius: 20px;
   padding: 20px;
-  border-radius: 15px;
   text-align: center;
+  transition: 0.3s;
 }
 
 .slot.occupied {
   border-color: red;
+  animation: blink 1s infinite;
 }
 
-.booking {
+@keyframes blink {
+  0% { box-shadow: 0 0 10px red; }
+  50% { box-shadow: 0 0 25px red; }
+  100% { box-shadow: 0 0 10px red; }
+}
+
+.car-icon {
+  width: 80px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 5px white);
+}
+
+.slot.occupied .car-icon {
+  filter: drop-shadow(0 0 15px red);
+}
+
+.status {
+  font-weight: bold;
+  color: #00ff99;
+}
+
+.slot.occupied .status {
+  color: red;
+}
+
+footer {
   text-align: center;
-  margin: 20px;
+  padding: 20px;
+  opacity: 0.6;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 2rem;
+  }
 }

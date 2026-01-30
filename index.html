@@ -1,51 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ParkVision Tech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <header>
     <h1>ParkVision Tech</h1>
     <h2>Smart Parking Monitoring System</h2>
     <p>Total Cars Parked: <span id="carCount">0</span></p>
   </header>
-  <section class="booking-form">
-  <h2>Book a Slot</h2>
-  <form id="slotBookingForm">
-    <label for="vehicleNumber">Vehicle Number:</label>
-    <input type="text" id="vehicleNumber" required placeholder="GJ01AB1234"/>
 
-    <label for="slotNumber">Select Slot:</label>
-    <select id="slotNumber" required>
-      <option value="1">Slot 1</option>
-      <option value="2">Slot 2</option>
-      <option value="3">Slot 3</option>
-      <option value="4">Slot 4</option>
-    </select>
-
-    <label for="startTime">Start Time:</label>
-    <input type="datetime-local" id="startTime" required/>
-
-    <label for="endTime">End Time:</label>
-    <input type="datetime-local" id="endTime" required/>
-
-    <button type="submit">Book Slot</button>
-  </form>
-  <p id="bookingMessage"></p>
-</section>
-
-
+  <!-- SLOT STATUS GRID -->
   <main class="grid">
-
     <div class="slot" id="slot1">
       <img src="car.png" class="car-icon" />
       <h3>SLOT 1</h3>
@@ -81,8 +55,50 @@
       <p>Exit: <span class="exit">--</span></p>
       <p>Duration: <span class="duration">00:00</span></p>
     </div>
-
   </main>
+
+  <!-- ADVANCE BOOKING FORM -->
+  <section class="booking-form">
+    <h2>Book a Slot</h2>
+    <form id="slotBookingForm">
+      <label for="vehicleNumber">Vehicle Number:</label>
+      <input type="text" id="vehicleNumber" required placeholder="GJ01AB1234"/>
+
+      <label for="slotNumber">Select Slot:</label>
+      <select id="slotNumber" required>
+        <option value="1">Slot 1</option>
+        <option value="2">Slot 2</option>
+        <option value="3">Slot 3</option>
+        <option value="4">Slot 4</option>
+      </select>
+
+      <label for="startTime">Start Time:</label>
+      <input type="datetime-local" id="startTime" required/>
+
+      <label for="endTime">End Time:</label>
+      <input type="datetime-local" id="endTime" required/>
+
+      <button type="submit">Book Slot</button>
+    </form>
+    <p id="bookingMessage"></p>
+  </section>
+
+  <!-- ADMIN DASHBOARD -->
+  <section class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    <table border="1" id="adminTable">
+      <thead>
+        <tr>
+          <th>Slot</th>
+          <th>Vehicle</th>
+          <th>Status</th>
+          <th>Entry Time</th>
+          <th>Exit Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
   <footer>
     © 2026 ParkVision Tech. All Rights Reserved.

@@ -18,6 +18,31 @@
     <h2>Smart Parking Monitoring System</h2>
     <p>Total Cars Parked: <span id="carCount">0</span></p>
   </header>
+  <section class="booking-form">
+  <h2>Book a Slot</h2>
+  <form id="slotBookingForm">
+    <label for="vehicleNumber">Vehicle Number:</label>
+    <input type="text" id="vehicleNumber" required placeholder="GJ01AB1234"/>
+
+    <label for="slotNumber">Select Slot:</label>
+    <select id="slotNumber" required>
+      <option value="1">Slot 1</option>
+      <option value="2">Slot 2</option>
+      <option value="3">Slot 3</option>
+      <option value="4">Slot 4</option>
+    </select>
+
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" required/>
+
+    <label for="endTime">End Time:</label>
+    <input type="datetime-local" id="endTime" required/>
+
+    <button type="submit">Book Slot</button>
+  </form>
+  <p id="bookingMessage"></p>
+</section>
+
 
   <main class="grid">
 

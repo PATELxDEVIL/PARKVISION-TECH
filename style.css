@@ -1,4 +1,7 @@
-* { box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
 body {
   margin: 0;
@@ -11,8 +14,37 @@ header {
   padding: 30px 10px;
 }
 
-header h1 { font-size: 2.8rem; }
-header h2 { font-weight: 300; color: #cfd8ff; }
+header h1 {
+  font-size: 2.8rem;
+}
+
+header h2 {
+  font-weight: 300;
+  color: #cfd8ff;
+}
+
+.booking-form {
+  text-align: center;
+  padding: 20px;
+}
+
+.booking-form input, .booking-form select, .booking-form button {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #00ff99;
+  color: black;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00cc77;
+}
 
 .grid {
   display: grid;
@@ -41,49 +73,33 @@ header h2 { font-weight: 300; color: #cfd8ff; }
   100% { box-shadow: 0 0 10px red; }
 }
 
-.car-icon { width: 80px; margin-bottom: 10px; filter: drop-shadow(0 0 5px white); }
-.slot.occupied .car-icon { filter: drop-shadow(0 0 15px red); }
-
-.status { font-weight: bold; color: #00ff99; }
-.slot.occupied .status { color: red; }
-
-footer { text-align: center; padding: 20px; opacity: 0.6; }
-
-/* Booking Form */
-.booking-form {
-  background: rgba(0,0,0,0.7);
-  border: 2px solid #00ff99;
-  border-radius: 15px;
-  padding: 20px;
-  margin: 30px auto;
-  max-width: 400px;
+.car-icon {
+  width: 80px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 5px white);
 }
-.booking-form h2 { text-align: center; }
-.booking-form input, .booking-form select, .booking-form button {
-  width: 100%; padding: 8px; margin: 8px 0; border-radius: 8px; border: none;
-}
-.booking-form button {
-  background-color: #00ff99; font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.booking-form button:hover { background-color: #00cc7a; }
 
-/* Admin Dashboard */
-.admin-dashboard {
-  margin: 30px auto;
-  max-width: 800px;
+.slot.occupied .car-icon {
+  filter: drop-shadow(0 0 15px red);
+}
+
+.status {
+  font-weight: bold;
   color: #00ff99;
 }
-.admin-dashboard table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.admin-dashboard th, td {
-  padding: 8px;
-  text-align: center;
-  border: 1px solid #00ff99;
+
+.slot.occupied .status {
+  color: red;
 }
 
-/* Mobile tweaks */
+footer {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.6;
+}
+
 @media (max-width: 600px) {
-  header h1 { font-size: 2rem; }
+  header h1 {
+    font-size: 2rem;
+  }
 }

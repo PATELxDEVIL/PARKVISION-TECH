@@ -21,113 +21,91 @@ const firebaseConfig = {
 };
 
 
+// 🔥 Firebase Config
+const firebaseConfig = {
+  databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// 🔐 BOOK SLOT
 function bookSlot() {
-  const vehicleNumber = document.getElementById("vehicleNumber").value.trim();
-  const slotNumber = parseInt(document.getElementById("slotSelect").value);
-  const startTime = document.getElementById("startTime").value;
-  const endTime = document.getElementById("endTime").value;
+  const vehicle = vehicleInput();
+  const slot = document.getElementById("slot").value;
+  const start = epoch("start");
+  const end = epoch("end");
 
-  if (!vehicleNumber || !startTime || !endTime) {
-    alert("Please fill all fields!");
+  if (!vehicle || end <= start) {
+    alert("Invalid details");
     return;
   }
 
-  const startEpoch = Math.floor(new Date(startTime).getTime() / 1000);
-  const endEpoch = Math.floor(new Date(endTime).getTime() / 1000);
+  const id = "BK_" + Date.now();
 
-  const bookingId = "ADV_" + Date.now();
+  db.ref("bookings/" + id).set({
+    vehicle,
+    slot,
+    startEpoch: start,
+    endEpoch: end,
+    entryEpoch: 0,
+    exitEpoch: 0,
+    status: "BOOKED"
+  });
 
-  const bookingData = {
-    userId: "USER_001",
-    vehicleNumber,
-    slot: slotNumber,
-    startEpoch,
-    endEpoch,
-    status: "BOOKED",
-    converted: false
-  };
+  db.ref("slots/" + slot + "/status").set("BOOKED");
 
-  db.ref("advanceBookings/" + bookingId).set(bookingData)
-    .then(() => alert("✅ Slot Booked Successfully!"))
-    .catch(err => { alert("❌ Booking Failed"); console.error(err); });
+  alert("Slot Booked");
 }
 
-// Auto-update bookings and handle no-show / overstaying
+function epoch(id) {
+  return new Date(document.getElementById(id).value).getTime() / 1000;
+}
+
+function vehicleInput() {
+  return document.getElementById("vehicle").value;
+}
+
+// 🔄 LIVE SLOT UPDATE
+db.ref("slots").on("value", snap => {
+  snap.forEach(s => {
+    const slotDiv = document.getElementById("slot" + s.key);
+    slotDiv.querySelector(".status").innerText = s.val().status;
+    slotDiv.classList.toggle("occupied", s.val().status === "OCCUPIED");
+  });
+});
+
+// ⏱️ AUTO TIME LOGIC (CRITICAL FIX)
 setInterval(() => {
   const now = Math.floor(Date.now() / 1000);
 
-  db.ref("advanceBookings").once("value").then(snapshot => {
-    snapshot.forEach(child => {
-      const data = child.val();
-      const advId = child.key;
-      const waitTime = now - data.startEpoch;
+  db.ref("bookings").once("value", snap => {
+    snap.forEach(bk => {
+      const b = bk.val();
+      const id = bk.key;
 
-      // Auto activate booking
-      if (data.status === "BOOKED" && !data.converted && now >= data.startEpoch) {
-        const newBookingId = "BOOKING_" + Date.now();
-        const booking = {
-          userId: data.userId,
-          vehicleNumber: data.vehicleNumber,
-          slot: data.slot,
-          status: "BOOKED",
-          entryEpoch: 0,
-          exitEpoch: 0,
-          fare: 0,
-          source: "ADVANCE",
-          advanceId: advId
-        };
-        db.ref("bookings/" + newBookingId).set(booking);
-        db.ref("advanceBookings/" + advId + "/converted").set(true);
-        console.log("Activated booking:", newBookingId);
+      // ❌ No-show after 2 min
+      if (b.status === "BOOKED" && b.entryEpoch === 0 && now > b.startEpoch + 120) {
+        db.ref("bookings/" + id + "/status").set("EXPIRED");
+        db.ref("slots/" + b.slot + "/status").set("AVAILABLE");
       }
 
-      // No-show release after 2 min
-      if (data.status === "BOOKED" && waitTime > 120 && !data.converted) {
-        db.ref("advanceBookings/" + advId + "/status").set("EXPIRED");
-        console.log("Booking expired (no-show):", advId);
+      // ⏰ Booking time over, no car
+      if (b.status === "BOOKED" && now > b.endEpoch) {
+        db.ref("bookings/" + id + "/status").set("EXPIRED");
+        db.ref("slots/" + b.slot + "/status").set("AVAILABLE");
+      }
+
+      // 🚗 Overstay
+      if (b.status === "IN" && now > b.endEpoch) {
+        db.ref("slots/" + b.slot + "/status").set("OCCUPIED");
+      }
+
+      // ✅ Exit
+      if (b.status === "COMPLETED") {
+        db.ref("slots/" + b.slot + "/status").set("AVAILABLE");
       }
     });
   });
+}, 10000);
 
-  // Update dashboard UI from /bookings
-  db.ref("bookings").once("value").then(snapshot => {
-    let count = 0;
-    document.querySelectorAll(".slot").forEach(slot => {
-      slot.classList.remove("occupied");
-      slot.querySelector(".status").innerText = "AVAILABLE";
-    });
-
-    snapshot.forEach(child => {
-      const data = child.val();
-      const slotDiv = document.getElementById("slot" + data.slot);
-      if (!slotDiv) return;
-
-      const nowEpoch = Math.floor(Date.now() / 1000);
-
-      // Determine status
-      let displayStatus = data.status;
-      if (data.status === "BOOKED" && nowEpoch >= data.startEpoch + 120 && data.entryEpoch == 0) {
-        displayStatus = "AVAILABLE"; // expired
-      } else if (data.status === "BOOKED" && data.entryEpoch > 0) {
-        displayStatus = "IN";
-      } else if (data.status === "IN" && nowEpoch > data.endEpoch) {
-        displayStatus = "OCCUPIED"; // overstayed
-      }
-
-      if (displayStatus !== "AVAILABLE") {
-        slotDiv.classList.add("occupied");
-        slotDiv.querySelector(".status").innerText = displayStatus;
-        count++;
-      } else {
-        slotDiv.classList.remove("occupied");
-        slotDiv.querySelector(".status").innerText = "AVAILABLE";
-      }
-    });
-
-    document.getElementById("carCount").innerText = count;
-  });
-
-}, 3000); // check every 5 seconds

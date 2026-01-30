@@ -1,7 +1,4 @@
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
+* { box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
 
 body {
   margin: 0;
@@ -14,14 +11,8 @@ header {
   padding: 30px 10px;
 }
 
-header h1 {
-  font-size: 2.8rem;
-}
-
-header h2 {
-  font-weight: 300;
-  color: #cfd8ff;
-}
+header h1 { font-size: 2.8rem; }
+header h2 { font-weight: 300; color: #cfd8ff; }
 
 .grid {
   display: grid;
@@ -50,33 +41,49 @@ header h2 {
   100% { box-shadow: 0 0 10px red; }
 }
 
-.car-icon {
-  width: 80px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 5px white);
-}
+.car-icon { width: 80px; margin-bottom: 10px; filter: drop-shadow(0 0 5px white); }
+.slot.occupied .car-icon { filter: drop-shadow(0 0 15px red); }
 
-.slot.occupied .car-icon {
-  filter: drop-shadow(0 0 15px red);
-}
+.status { font-weight: bold; color: #00ff99; }
+.slot.occupied .status { color: red; }
 
-.status {
-  font-weight: bold;
+footer { text-align: center; padding: 20px; opacity: 0.6; }
+
+/* Booking Form */
+.booking-form {
+  background: rgba(0,0,0,0.7);
+  border: 2px solid #00ff99;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 400px;
+}
+.booking-form h2 { text-align: center; }
+.booking-form input, .booking-form select, .booking-form button {
+  width: 100%; padding: 8px; margin: 8px 0; border-radius: 8px; border: none;
+}
+.booking-form button {
+  background-color: #00ff99; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+.booking-form button:hover { background-color: #00cc7a; }
+
+/* Admin Dashboard */
+.admin-dashboard {
+  margin: 30px auto;
+  max-width: 800px;
   color: #00ff99;
 }
-
-.slot.occupied .status {
-  color: red;
+.admin-dashboard table {
+  width: 100%;
+  border-collapse: collapse;
 }
-
-footer {
+.admin-dashboard th, td {
+  padding: 8px;
   text-align: center;
-  padding: 20px;
-  opacity: 0.6;
+  border: 1px solid #00ff99;
 }
 
+/* Mobile tweaks */
 @media (max-width: 600px) {
-  header h1 {
-    font-size: 2rem;
-  }
+  header h1 { font-size: 2rem; }
 }

@@ -20,10 +20,10 @@ const firebaseConfig = {
   appId: "1:259137051604:web:95d40b5e5d839009d21441"
 };
 
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/**************** BOOK SLOT FUNCTION ****************/
 function bookSlot() {
   const vehicleNumber = document.getElementById("vehicleNumber").value.trim();
   const slotNumber = parseInt(document.getElementById("slotSelect").value);
@@ -55,18 +55,17 @@ function bookSlot() {
     .catch(err => { alert("❌ Booking Failed"); console.error(err); });
 }
 
-/**************** AUTO-ACTIVATE + NO-SHOW CHECK ****************/
+// Auto-update bookings and handle no-show / overstaying
 setInterval(() => {
   const now = Math.floor(Date.now() / 1000);
 
-  db.ref("advanceBookings").once("value", snapshot => {
+  db.ref("advanceBookings").once("value").then(snapshot => {
     snapshot.forEach(child => {
       const data = child.val();
       const advId = child.key;
-
       const waitTime = now - data.startEpoch;
 
-      // 1️⃣ Auto activate booking
+      // Auto activate booking
       if (data.status === "BOOKED" && !data.converted && now >= data.startEpoch) {
         const newBookingId = "BOOKING_" + Date.now();
         const booking = {
@@ -82,38 +81,53 @@ setInterval(() => {
         };
         db.ref("bookings/" + newBookingId).set(booking);
         db.ref("advanceBookings/" + advId + "/converted").set(true);
-        console.log("✅ Activated booking:", newBookingId);
+        console.log("Activated booking:", newBookingId);
       }
 
-      // 2️⃣ No-show auto-expire after 2 min
+      // No-show release after 2 min
       if (data.status === "BOOKED" && waitTime > 120 && !data.converted) {
         db.ref("advanceBookings/" + advId + "/status").set("EXPIRED");
-        console.log("⚠️ Booking expired (no-show):", advId);
+        console.log("Booking expired (no-show):", advId);
       }
-
     });
   });
-}, 10000); // check every 10 sec
 
-/**************** UPDATE DASHBOARD UI ****************/
-db.ref("bookings").on("value", snapshot => {
-  let count = 0;
+  // Update dashboard UI from /bookings
+  db.ref("bookings").once("value").then(snapshot => {
+    let count = 0;
+    document.querySelectorAll(".slot").forEach(slot => {
+      slot.classList.remove("occupied");
+      slot.querySelector(".status").innerText = "AVAILABLE";
+    });
 
-  document.querySelectorAll(".slot").forEach(slot => {
-    slot.classList.remove("occupied");
-    slot.querySelector(".status").innerText = "AVAILABLE";
-  });
-
-  snapshot.forEach(child => {
-    const data = child.val();
-    if (data.status === "BOOKED" || data.status === "IN") {
-      count++;
+    snapshot.forEach(child => {
+      const data = child.val();
       const slotDiv = document.getElementById("slot" + data.slot);
-      slotDiv.classList.add("occupied");
-      slotDiv.querySelector(".status").innerText = data.status;
-    }
+      if (!slotDiv) return;
+
+      const nowEpoch = Math.floor(Date.now() / 1000);
+
+      // Determine status
+      let displayStatus = data.status;
+      if (data.status === "BOOKED" && nowEpoch >= data.startEpoch + 120 && data.entryEpoch == 0) {
+        displayStatus = "AVAILABLE"; // expired
+      } else if (data.status === "BOOKED" && data.entryEpoch > 0) {
+        displayStatus = "IN";
+      } else if (data.status === "IN" && nowEpoch > data.endEpoch) {
+        displayStatus = "OCCUPIED"; // overstayed
+      }
+
+      if (displayStatus !== "AVAILABLE") {
+        slotDiv.classList.add("occupied");
+        slotDiv.querySelector(".status").innerText = displayStatus;
+        count++;
+      } else {
+        slotDiv.classList.remove("occupied");
+        slotDiv.querySelector(".status").innerText = "AVAILABLE";
+      }
+    });
+
+    document.getElementById("carCount").innerText = count;
   });
 
-  document.getElementById("carCount").innerText = count;
-});
-
+}, 3000); // check every 5 seconds

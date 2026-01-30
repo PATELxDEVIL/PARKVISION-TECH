@@ -20,48 +20,26 @@ const firebaseConfig = {
   appId: "1:259137051604:web:95d40b5e5d839009d21441"
 };
 
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/**************** BOOK SLOT FORM ****************/
-const bookingForm = document.getElementById("slotBookingForm");
-const bookingMessage = document.getElementById("bookingMessage");
-
-bookingForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
+/**************** BOOK SLOT FUNCTION ****************/
+function bookSlot() {
   const vehicleNumber = document.getElementById("vehicleNumber").value.trim();
-  const slotNumber = parseInt(document.getElementById("slotNumber").value);
+  const slotNumber = parseInt(document.getElementById("slotSelect").value);
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
+
+  if (!vehicleNumber || !startTime || !endTime) {
+    alert("Please fill all fields!");
+    return;
+  }
 
   const startEpoch = Math.floor(new Date(startTime).getTime() / 1000);
   const endEpoch = Math.floor(new Date(endTime).getTime() / 1000);
 
-  if (startEpoch >= endEpoch) {
-    bookingMessage.innerText = "❌ End time must be after start time";
-    return;
-  }
-
-  // Slot Conflict Check
-  const snapshot = await db.ref("advanceBookings").once("value");
-  let conflict = false;
-
-  snapshot.forEach(child => {
-    const data = child.val();
-    if (data.slot === slotNumber && !(endEpoch <= data.startEpoch || startEpoch >= data.endEpoch)) {
-      conflict = true;
-    }
-  });
-
-  if (conflict) {
-    bookingMessage.innerText = `❌ Slot ${slotNumber} is already booked in that time.`;
-    return;
-  }
-
-  // Create Advance Booking
   const bookingId = "ADV_" + Date.now();
+
   const bookingData = {
     userId: "USER_001",
     vehicleNumber,
@@ -73,17 +51,11 @@ bookingForm.addEventListener("submit", async (e) => {
   };
 
   db.ref("advanceBookings/" + bookingId).set(bookingData)
-    .then(() => {
-      bookingMessage.innerText = `✅ Slot ${slotNumber} booked successfully!`;
-      bookingForm.reset();
-    })
-    .catch(err => {
-      bookingMessage.innerText = "❌ Booking failed!";
-      console.error(err);
-    });
-});
+    .then(() => alert("✅ Slot Booked Successfully!"))
+    .catch(err => { alert("❌ Booking Failed"); console.error(err); });
+}
 
-/**************** AUTO ACTIVATE BOOKINGS ****************/
+/**************** AUTO-ACTIVATE + NO-SHOW CHECK ****************/
 setInterval(() => {
   const now = Math.floor(Date.now() / 1000);
 
@@ -92,9 +64,11 @@ setInterval(() => {
       const data = child.val();
       const advId = child.key;
 
-      if (data.status === "BOOKED" && data.converted === false && now >= data.startEpoch) {
-        const newBookingId = "BOOKING_" + Date.now();
+      const waitTime = now - data.startEpoch;
 
+      // 1️⃣ Auto activate booking
+      if (data.status === "BOOKED" && !data.converted && now >= data.startEpoch) {
+        const newBookingId = "BOOKING_" + Date.now();
         const booking = {
           userId: data.userId,
           vehicleNumber: data.vehicleNumber,
@@ -106,17 +80,22 @@ setInterval(() => {
           source: "ADVANCE",
           advanceId: advId
         };
-
         db.ref("bookings/" + newBookingId).set(booking);
         db.ref("advanceBookings/" + advId + "/converted").set(true);
-
         console.log("✅ Activated booking:", newBookingId);
       }
+
+      // 2️⃣ No-show auto-expire after 2 min
+      if (data.status === "BOOKED" && waitTime > 120 && !data.converted) {
+        db.ref("advanceBookings/" + advId + "/status").set("EXPIRED");
+        console.log("⚠️ Booking expired (no-show):", advId);
+      }
+
     });
   });
-}, 10000);
+}, 10000); // check every 10 sec
 
-/**************** SLOT STATUS DASHBOARD ****************/
+/**************** UPDATE DASHBOARD UI ****************/
 db.ref("bookings").on("value", snapshot => {
   let count = 0;
 
@@ -136,25 +115,5 @@ db.ref("bookings").on("value", snapshot => {
   });
 
   document.getElementById("carCount").innerText = count;
-});
-
-/**************** ADMIN DASHBOARD ****************/
-const adminTableBody = document.querySelector("#adminTable tbody");
-
-db.ref("bookings").on("value", snapshot => {
-  adminTableBody.innerHTML = "";
-  snapshot.forEach(child => {
-    const data = child.val();
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td>${data.slot}</td>
-      <td>${data.vehicleNumber}</td>
-      <td>${data.status}</td>
-      <td>${data.entryEpoch ? new Date(data.entryEpoch*1000).toLocaleString() : "--"}</td>
-      <td>${data.exitEpoch ? new Date(data.exitEpoch*1000).toLocaleString() : "--"}</td>
-    `;
-    adminTableBody.appendChild(row);
-  });
 });
 

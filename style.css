@@ -75,7 +75,6 @@ footer {
   opacity: 0.6;
 }
 
-/* Mobile tweaks */
 @media (max-width: 600px) {
   header h1 {
     font-size: 2rem;

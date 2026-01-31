@@ -1,11 +1,25 @@
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Arial;
+}
+
+.location {
+  margin: 20px;
+  padding: 20px;
+  background: #111827;
+  border-radius: 12px;
+}
+
 .slot {
+  display: inline-block;
+  width: 120px;
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
-  background: #111;
-  color: white;
+  text-align: center;
 }
 
 .available { border: 2px solid #00ff99; }
-.booked    { border: 2px solid orange; }
-.occupied  { border: 2px solid red; }
+.booked { border: 2px solid orange; }
+.occupied { border: 2px solid red; }

@@ -11,26 +11,27 @@
 
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCCoyLflwSGYv2akdXCwCxxQLQnR0l_p6I",
   databaseURL: "https://parkvision-tech-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 
-const db = firebase.database();
-
-function loadSlots() {
-  const loc = document.getElementById("location").value;
-  const div = document.getElementById("slots");
+firebase.database().ref("parkingLocations")
+.on("value", snap => {
+  const div = document.getElementById("parking");
   div.innerHTML = "";
 
-  db.ref(`parkingLocations/${loc}/slots`).on("value", snap => {
-    div.innerHTML = "";
-    snap.forEach(s => {
-      const d = s.val();
-      div.innerHTML += `
-        <div class="slot ${d.status !== 'AVAILABLE' ? 'occupied' : ''}">
-          <h3>${s.key}</h3>
-          <p>Status: ${d.status}</p>
+  snap.forEach(loc => {
+    const l = loc.val();
+    let html = `<div class="location"><h2>${l.name}</h2>`;
+
+    Object.entries(l.slots).forEach(([id, s]) => {
+      html += `
+        <div class="slot ${s.status.toLowerCase()}">
+          <b>${id}</b><br>${s.status}
         </div>`;
     });
+
+    html += "</div>";
+    div.innerHTML += html;
   });
-}
+});
+

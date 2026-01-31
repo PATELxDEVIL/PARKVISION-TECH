@@ -1,18 +1,11 @@
-body {
-  background: #0a0f2c;
-  color: white;
-  font-family: Segoe UI;
-  padding: 20px;
-}
-
 .slot {
-  background: #111;
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
-  border: 2px solid #00ff99;
+  background: #111;
+  color: white;
 }
 
-.occupied {
-  border-color: red;
-}
+.available { border: 2px solid #00ff99; }
+.booked    { border: 2px solid orange; }
+.occupied  { border: 2px solid red; }

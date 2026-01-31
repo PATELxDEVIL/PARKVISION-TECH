@@ -1,69 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>ParkVision Tech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-  <link rel="stylesheet" href="style.css" />
+  <title>ParkVision Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>ParkVision Tech</h1>
-    <h2>Smart Parking Monitoring System</h2>
-    <p>Total Cars Parked: <span id="carCount">0</span></p>
-  </header>
+<h1>🚗 Smart Parking</h1>
 
-  <main class="grid">
+<select id="location">
+  <option value="sector28">Sector 28</option>
+  <option value="palladiumMall">Palladium Mall</option>
+</select>
 
-    <!-- SLOT TEMPLATE -->
-    <div class="slot" id="slot1">
-      <img src="car.png" class="car-icon" />
-      <h3>SLOT 1</h3>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Entry: <span class="entry">--</span></p>
-      <p>Exit: <span class="exit">--</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
+<button onclick="loadSlots()">Load Slots</button>
+<div id="slots"></div>
 
-    <div class="slot" id="slot2">
-      <img src="car.png" class="car-icon" />
-      <h3>SLOT 2</h3>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Entry: <span class="entry">--</span></p>
-      <p>Exit: <span class="exit">--</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
-
-    <div class="slot" id="slot3">
-      <img src="car.png" class="car-icon" />
-      <h3>SLOT 3</h3>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Entry: <span class="entry">--</span></p>
-      <p>Exit: <span class="exit">--</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
-
-    <div class="slot" id="slot4">
-      <img src="car.png" class="car-icon" />
-      <h3>SLOT 4</h3>
-      <p>Status: <span class="status">AVAILABLE</span></p>
-      <p>Entry: <span class="entry">--</span></p>
-      <p>Exit: <span class="exit">--</span></p>
-      <p>Duration: <span class="duration">00:00</span></p>
-    </div>
-
-  </main>
-
-  <footer>
-    © 2026 ParkVision Tech. All Rights Reserved.
-  </footer>
-
-  <script src="script.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
